@@ -1,0 +1,26 @@
+{
+  "name": "rollupthestats",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zeroviscosity/rollupthestats",
+  "authors": [
+    "Kent English <kent.english@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.5.3",
+    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git",
+    "normalize.css": "~3.0.2",
+    "materialize": "~0.95.1",
+    "semantic-ui": "~1.8.1",
+    "semantic-ui-dropdown": "~1.0.0",
+    "jquery": "~2.1.3"
+  }
+}
