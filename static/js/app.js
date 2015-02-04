@@ -16,4 +16,8 @@
             console.log(size, prize);
         }
     });
+
+    $('#what-button').click(function() {
+        $('#what-modal').modal('show');
+    });
 })(window.jQuery);

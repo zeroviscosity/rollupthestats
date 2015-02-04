@@ -55,6 +55,12 @@ body {
   width: 100%;
 }
 
+#what-button {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+}
+
 @media only screen and (min-width: 40.063em) {
   #form {
     padding: 20px;
