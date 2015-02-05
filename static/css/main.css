@@ -51,7 +51,7 @@ body {
 }
 
 #stats {
-  margin: 100px auto 0 auto;
+  padding: 70px 0;
   width: 96%;
 }
 
@@ -98,7 +98,7 @@ body {
 }
 
 #what-button {
-  position: fixed;
+  position: absolute;
   right: 20px;
   top: 20px;
 }
