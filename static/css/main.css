@@ -103,6 +103,14 @@ body {
   top: 20px;
 }
 
+footer a, footer a:visited {
+  color: #555;
+}
+
+footer a:hover {
+  color: #777;
+}
+
 .hide {
   display: none;
 }
