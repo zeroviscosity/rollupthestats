@@ -15,7 +15,6 @@
     <title>Roll up the Stats</title>
     <link rel="canonical" href="http://zeroviscosity.com">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/bower_components/normalize.css/normalize.css">
     <link rel="stylesheet" type="text/css" href="/bower_components/semantic-ui/dist/semantic.min.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.01">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
@@ -56,12 +55,19 @@
           </div>
         </div>      
         <input id="comment" type="text" name="comment" class="hide">
-        <div id="record" class="ui red big button">Record it!</div>
-        <div id="skip" class="ui button">Skip this and show me the stats...</div>
+        <div id="record" class="ui fluid red big button">Record it!</div>
+        <div id="skip" class="ui fluid button">Skip this and show me the stats...</div>
       </div>
     </div>
-    <div id="stats" class="hide centered shadow">
-      <div id="frequency"></div>
+    <div id="stats" class="hide">
+      <div class="stats padded shadow">
+        <h2 class="no-margin"><span id="total"></span> rolls recorded so far. Keep 'em coming!</h2>
+        <div id="reset" class="ui fluid big red button">Record another one</div>
+        <div class="note">NOTE: The stats are cached for performance reasons so your roll may not appear immediately. It is getting recorded, though, and every roll counts!</div>
+      </div>
+      <div class="stats shadow">
+        <div id="frequency"></div>
+      </div>
     </div>
     <div id="what-button" class="ui big red button">What is this?</div>
     <div id="what-modal" class="ui modal">

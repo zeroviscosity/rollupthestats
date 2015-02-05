@@ -2,25 +2,32 @@
     'use strict';
 
     function displayStats() {
+        var width = 0.96 * Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+        if (width > 600) width = 600;
+
         $.get('/api/stats', function(data) {
-            var frequencies = [];
+            var frequencies = [],
+                total = 0;
 
             $('#form').fadeOut(function() {
                 $('#stats').css('display', 'inline-block');
             });
 
             _.forEach(data, function(prizes, size) {
-                var total = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
+                var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
                     frequency = 0,
                     label;
+
+                total += subtotal;
 
                 if (size === 's') label = 'Small';
                 else if (size === 'm') label = 'Medium';
                 else if (size === 'l') label = 'Large';
                 else label = 'Extra Large';
 
-                if (total > 0) {
-                    frequency = (total - prizes.none) / total;
+                if (subtotal > 0) {
+                    frequency = (subtotal - prizes.none) / subtotal;
                 }
 
                 frequencies.push({
@@ -28,15 +35,18 @@
                     frequency: frequency
                 });
             });
+
+            $('#total').html(total);
+            $('#frequency').empty();
         
-            generateFrequencyChart(frequencies);
+            generateFrequencyChart(width, 300, frequencies);
         }, 'json');
     }
 
-    function generateFrequencyChart(data) {
+    function generateFrequencyChart(width, height, data) {
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = 500 - margin.left - margin.right,
-            height = 300 - margin.top - margin.bottom;
+            width = width - margin.left - margin.right,
+            height = height - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal()
             .rangeRoundBands([0, width], .1);
@@ -116,6 +126,13 @@
         displayStats();
     });
 
+    $('#reset').click(function() {
+        $('#stats').fadeOut(function() {
+            $('#record').removeClass('loading').removeClass('disabled');
+            $('#skip').removeClass('loading').removeClass('disabled');
+            $('#form').css('display', 'inline-block');
+        });
+    });
 
     $('#what-button').click(function() {
         $('#what-modal').modal('show');

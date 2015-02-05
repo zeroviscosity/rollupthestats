@@ -46,34 +46,50 @@ body {
   margin-top: 0;
 }
 
-#form .button {
-  display: block;
+#form .button, #stats .button {
   margin: 16px 0 0 0;
-  width: 100%;
 }
 
 #stats {
-  background: white;
+  margin: 100px auto 0 auto;
+  width: 96%;
+}
+
+.note {
+  margin-top: 16px;
+}
+
+.stats {
+  background: rgba(255, 255, 255, 0.75);
   border-radius: 3px;
-  width: 500px; 
+  margin: 20px 0;
+  width: 100%; 
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.padded {
+  padding: 20px;
 }
 
 .bar {
-  fill: steelblue;
+  fill: #d95c5c;
 }
 
 .bar:hover {
-  fill: brown;
+  fill: #dc6868;
 }
 
 .axis {
-  font: 10px sans-serif;
+  font-size: 10px;
 }
 
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #555;
   shape-rendering: crispEdges;
 }
 
@@ -91,9 +107,13 @@ body {
   display: none;
 }
 
-@media only screen and (min-width: 40.063em) {
+@media only screen and (min-width: 625px) {
   #form {
     padding: 20px;
     width: 500px; 
+  }
+
+  #stats {
+    width: 600px;
   }
 }
