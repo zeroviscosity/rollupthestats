@@ -8,13 +8,24 @@
     $('#record').click(function() {
         var button = $(this),
             size = $('#size').val(),
-            prize = $('#prize').val();
+            prize = $('#prize').val(),
+            comment = $('#comment').val();
         
         if (size && prize) {
             button.addClass('loading').addClass('disabled');
 
-            console.log(size, prize);
+            $.post('/api/logs', JSON.stringify({
+                size: size,
+                prize: prize,
+                honeypot: comment
+            }), function(data) {
+                console.log(data);
+            });
         }
+    });
+
+    $.get('/api/stats', function(data) {
+        console.log(data);
     });
 
     $('#what-button').click(function() {
