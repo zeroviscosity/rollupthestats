@@ -6,8 +6,11 @@
 
         if (width > 600) width = 600;
 
+        width -= 40; // For padding
+
         $.get('/api/stats', function(data) {
             var frequencies = [],
+                rolls = [],
                 total = 0;
 
             $('#form').fadeOut(function() {
@@ -32,18 +35,25 @@
 
                 frequencies.push({
                     label: label,
-                    frequency: frequency
+                    value: frequency
+                });
+
+                rolls.push({
+                    label: label,
+                    value: subtotal
                 });
             });
 
             $('#total').html(total);
             $('#frequency').empty();
+            $('#rolls').empty();
         
-            generateFrequencyChart(width, 300, frequencies);
+            generateBarChart('#frequency', width, 300, frequencies, 'Frequency', true);
+            generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
         }, 'json');
     }
 
-    function generateFrequencyChart(width, height, data) {
+    function generateBarChart(id, width, height, data, ylabel, percent) {
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = width - margin.left - margin.right,
             height = height - margin.top - margin.bottom;
@@ -61,16 +71,19 @@
         var yAxis = d3.svg.axis()
             .scale(y)
             .orient('left')
-            .ticks(10, '%');
 
-        var svg = d3.select('#frequency').append('svg')
+        if (percent) {
+            yAxis.ticks(10, '%');
+        }
+
+        var svg = d3.select(id).append('svg')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         x.domain(data.map(function(d) { return d.label; }));
-        y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+        y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
         svg.append('g')
             .attr('class', 'x axis')
@@ -85,7 +98,7 @@
             .attr('y', 6)
             .attr('dy', '.71em')
             .style('text-anchor', 'end')
-            .text('Frequency');
+            .text(ylabel);
 
         svg.selectAll('.bar')
             .data(data)
@@ -94,8 +107,8 @@
             .attr('class', 'bar')
             .attr('x', function(d) { return x(d.label); })
             .attr('width', x.rangeBand())
-            .attr('y', function(d) { return y(d.frequency); })
-            .attr('height', function(d) { return height - y(d.frequency); });
+            .attr('y', function(d) { return y(d.value); })
+            .attr('height', function(d) { return height - y(d.value); });
     }
     
     $('.dropdown').dropdown({

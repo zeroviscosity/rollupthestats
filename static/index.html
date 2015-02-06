@@ -16,7 +16,7 @@
     <link rel="canonical" href="http://zeroviscosity.com">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/bower_components/semantic-ui/dist/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.0.2">
+    <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.0.3">
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto">
   </head>
   <body class="block">
@@ -60,13 +60,18 @@
       </div>
     </div>
     <div id="stats" class="hide centered">
-      <div class="stats padded shadow">
+      <div class="stats shadow">
         <h2 class="no-margin"><span id="total"></span> rolls recorded so far. Keep 'em coming!</h2>
         <div id="reset" class="ui fluid big red button">Record another one</div>
         <div class="note">NOTE: The stats are cached for performance reasons so your roll may not appear immediately. It is getting recorded, though, and every roll counts!</div>
       </div>
       <div class="stats shadow">
+        <h3 class="no-margin">Win Frequency by Size</h3>
         <div id="frequency"></div>
+      </div>
+      <div class="stats shadow">
+        <h3 class="no-margin">Rolls Recorded by Size</h3>
+        <div id="rolls"></div>
       </div>
     </div>
     <div id="what-button" class="ui big red button">What is this?</div>
@@ -88,7 +93,7 @@
     <script src="/bower_components/lodash/lodash.min.js"></script>
     <script src="/bower_components/d3/d3.min.js"></script>
     <script src="/bower_components/semantic-ui/dist/semantic.min.js"></script>
-    <script src="/js/app.js?v=1.0.1"></script>
+    <script src="/js/app.js?v=1.0.2"></script>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
