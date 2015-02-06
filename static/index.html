@@ -16,7 +16,7 @@
     <link rel="canonical" href="http://rollupthestats.com">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/semantic-ui/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.0.4">
+    <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.0.5">
   </head>
   <body class="block">
     <div id="form" class="centered shadow">
@@ -64,6 +64,11 @@
         <div id="reset" class="ui fluid big red button">Record another one</div>
         <div class="note">NOTE: The stats are cached for performance reasons so your roll may not appear immediately. It is getting recorded, though, and every roll counts!</div>
       </div>
+      <div class="social">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rollupthestats.com/" data-text="Check out and contribute to #RollUpTheRim stats" data-via="kentenglish">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <div class="fb-share-button" data-href="http://rollupthestats.com/" data-layout="button_count"></div>
+      </div> 
       <div class="stats shadow">
         <h3 class="no-margin">Win Frequency by Size</h3>
         <div id="frequency" class="chart"></div>
@@ -88,6 +93,14 @@
       <div>Powered by <a href="http://d3js.org/" target="_blank">D3.js</a> and <a href="http://semantic-ui.com/" target="_blank">Semantic UI</a>.</div>
       <small>DISCLAIMER: This site is in no way affiliated with The TDL Group Corp. or Tim Hortons.</small>
     </footer>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=420450878114719&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/lodash/lodash.min.js"></script>
     <script src="/bower_components/d3/d3.min.js"></script>
