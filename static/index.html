@@ -21,6 +21,7 @@
   <body class="block">
     <div id="form" class="centered shadow">
       <div class="ui form">
+        <div class="logo"></div>
         <h1>Record your Roll</h1>
         <div class="two fields">
           <div class="field">
@@ -62,7 +63,7 @@
       <div class="stats shadow">
         <h2 class="no-margin"><span id="total"></span> rolls recorded so far. Keep 'em coming!</h2>
         <div id="reset" class="ui fluid big red button">Record another one</div>
-        <div class="note">NOTE: The stats are cached for performance reasons so your roll may not appear immediately. It is getting recorded, though, and every roll counts!</div>
+        <div class="note">NOTE: Your roll may take a few minutes to appear.</div>
       </div>
       <div class="social">
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://rollupthestats.com/" data-text="Check out and contribute to #RollUpTheRim stats" data-via="kentenglish">Tweet</a>
@@ -78,14 +79,16 @@
         <div id="rolls" class="chart"></div>
       </div>
     </div>
-    <div id="what-button" class="ui big red button">What is this?</div>
+    <div id="what-button" class="ui red button">What is this?</div>
     <div id="what-modal" class="ui modal">
       <i class="close icon"></i>
       <div class="content">
-        TURN DOWN FOR WHAT!
+        <div class="logo"></div>
+        <p><em>Roll up the Stats</em> is a crowd-sourced exploration of prize frequency and distribution across cup sizes in a popular contest run by a certain Canadian coffee shop.</p>
+        <p><strong>Every roll counts &mdash; even the ones that don't win</strong>. In order to get a good estimate of the winning frequencies, we need to record the losing rolls just as much as the winning ones.
       </div>
       <div class="actions">
-        <div class="ui black button">OK</div>
+        <div class="ui red button">OK</div>
       </div>
     </div>
     <footer>
