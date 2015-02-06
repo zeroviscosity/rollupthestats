@@ -22,17 +22,17 @@ func main() {
 	var config Config
 	err := envconfig.Process("MYSQL", &config)
 	if err != nil {
-		log.Fatalf("Error reading environment variables: %s", err.Error())
+		log.Fatalf("Error reading environment variables: %s\n", err.Error())
 	}
 
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@/%s", config.User, config.Password, config.Name))
 	if err != nil {
-		log.Fatalf("Error establishing database connection: %s", err.Error())
+		log.Fatalf("Error establishing database connection: %s\n", err.Error())
 	}
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("Error opening database connection: %s", err.Error())
+		log.Fatalf("Error opening database connection: %s\n", err.Error())
 	}
 
 	http.HandleFunc("/api/logs", handlers.LogHandler(db))
