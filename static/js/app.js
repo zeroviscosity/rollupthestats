@@ -11,6 +11,7 @@
         $.get('/api/stats', function(data) {
             var frequencies = [],
                 rolls = [],
+                breakdown = [],
                 total = 0;
 
             $('#form').fadeOut(function() {
@@ -42,11 +43,16 @@
                     label: label,
                     value: subtotal
                 });
+
+                prizes.size = label;
+                delete prizes.none;
+                breakdown.push(prizes);
             });
 
             $('#total').html(total);
         
             generateBarChart('#frequency', width, 300, frequencies, 'Frequency', true);
+            generateStackedBarChart('#breakdown', width, 300, breakdown);
             generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
         }, 'json');
     }
@@ -87,12 +93,6 @@
         var tooltip = chart.append('div')
             .attr('class', 'tooltip');
 
-        var tooltipLabel = tooltip.append('div')
-            .attr('class', 'label');
-
-        var tooltipValue = tooltip.append('div')
-            .attr('class', 'value');
-
         x.domain(data.map(function(d) { return d.label; }));
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
@@ -122,11 +122,10 @@
             .attr('height', function(d) { return height - y(d.value); });
 
         bar.on('mouseover', function(d) {
-            tooltipLabel.html(d.label);
             if (percent) {
-                tooltipValue.html((Math.round(1000 * d.value) / 10) + '%');
+                tooltip.html((Math.round(1000 * d.value) / 10) + '%');
             } else {
-                tooltipValue.html(d.value);
+                tooltip.html(d.value);
             }
             tooltip.style('display', 'block');
         });
@@ -139,6 +138,124 @@
             tooltip.style('top', (d3.event.pageY + 10) + 'px')
                 .style('left', (d3.event.pageX + 10) + 'px');
         });
+    }
+
+    function generateStackedBarChart(id, width, height, data) {
+        var margin = {top: 20, right: 110, bottom: 30, left: 40},
+            legendRect = 18,
+            legendSpacing = 4,
+            width = width - margin.left - margin.right,
+            height = height - margin.top - margin.bottom;
+
+        var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+        var y = d3.scale.linear()
+            .rangeRound([height, 0]);
+
+        var color = d3.scale.ordinal()
+            .range(['#d95c5c', '#f3ca2d', '#e07b53', '#564f8a', '#5bbd72', '#3b83c0', '#d9499a', '#00b5ad']);
+
+        var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient('bottom');
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient('left')
+            .tickFormat(d3.format('.0%'));
+
+        var chart = d3.select(id);
+        
+        chart.html('');
+
+        var svg = chart.append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+        var tooltip = chart.append('div')
+            .attr('class', 'tooltip');
+                    
+        color.domain(d3.keys(data[0]).filter(function(key) { return key !== 'size'; }));
+
+        data.forEach(function(d) {
+            var y0 = 0;
+            d.prizes = color.domain().map(function(name) { return {name: name, y0: y0, y1: y0 += +d[name]}; });
+            d.prizes.forEach(function(d) { d.y0 /= y0; d.y1 /= y0; });
+        });
+
+        x.domain(data.map(function(d) { return d.size; }));
+
+        svg.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + height + ')')
+            .call(xAxis);
+
+        svg.append('g')
+            .attr('class', 'y axis')
+            .call(yAxis);
+
+        var size = svg.selectAll('.size')
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('class', 'size')
+            .attr('transform', function(d) { return 'translate(' + x(d.size) + ',0)'; });
+
+        var rect = size.selectAll('rect')
+            .data(function(d) { return d.prizes; })
+            .enter()
+            .append('rect')
+            .attr('width', x.rangeBand())
+            .attr('y', function(d) { return y(d.y1); })
+            .attr('height', function(d) { return y(d.y0) - y(d.y1); })
+            .style('fill', function(d) { return color(d.name); });
+
+        rect.on('mouseover', function(d) {
+            tooltip.html((Math.round(1000 * (d.y1 - d.y0)) / 10) + '%');
+            tooltip.style('display', 'block');
+        });
+
+        rect.on('mouseout', function() {
+            tooltip.style('display', 'none');
+        });
+
+        rect.on('mousemove', function(d) {
+            tooltip.style('top', (d3.event.pageY + 10) + 'px')
+                .style('left', (d3.event.pageX + 10) + 'px');
+        });
+
+
+        var legend = svg.selectAll('.legend')
+            .data(color.domain())
+            .enter()
+            .append('g')
+            .attr('class', 'legend')
+            .attr('transform', function(d, i) {
+                var horz = width + 10;
+                var vert = i * (legendRect + legendSpacing);
+                return 'translate(' + horz + ',' + vert + ')';
+            });
+        
+        legend.append('rect')
+            .attr('width', legendRect)
+            .attr('height', legendRect)
+            .style('fill', color)
+            .style('stroke', color);
+
+        legend.append('text')
+            .attr('x', legendRect + legendSpacing)
+            .attr('y', legendRect - legendSpacing)
+            .text(function(d) { 
+                if (d === 'coffee') return 'Coffee'; 
+                else if (d === 'donut') return 'Donut'; 
+                else if (d === 'timcard') return 'Gift Card'; 
+                else if (d === 'visa') return 'Prepaid VISA'; 
+                else if (d === 'tv') return 'TV'; 
+                else return 'Car'; 
+            });
     }
     
     $('.dropdown').dropdown({
