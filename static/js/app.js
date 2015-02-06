@@ -45,8 +45,6 @@
             });
 
             $('#total').html(total);
-            $('#frequency').empty();
-            $('#rolls').empty();
         
             generateBarChart('#frequency', width, 300, frequencies, 'Frequency', true);
             generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
@@ -76,11 +74,24 @@
             yAxis.ticks(10, '%');
         }
 
-        var svg = d3.select(id).append('svg')
+        var chart = d3.select(id);
+
+        chart.html('');
+
+        var svg = chart.append('svg')
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
             .append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+        var tooltip = chart.append('div')
+            .attr('class', 'tooltip');
+
+        var tooltipLabel = tooltip.append('div')
+            .attr('class', 'label');
+
+        var tooltipValue = tooltip.append('div')
+            .attr('class', 'value');
 
         x.domain(data.map(function(d) { return d.label; }));
         y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -100,7 +111,7 @@
             .style('text-anchor', 'end')
             .text(ylabel);
 
-        svg.selectAll('.bar')
+        var bar = svg.selectAll('.bar')
             .data(data)
             .enter()
             .append('rect')
@@ -109,6 +120,25 @@
             .attr('width', x.rangeBand())
             .attr('y', function(d) { return y(d.value); })
             .attr('height', function(d) { return height - y(d.value); });
+
+        bar.on('mouseover', function(d) {
+            tooltipLabel.html(d.label);
+            if (percent) {
+                tooltipValue.html((Math.round(1000 * d.value) / 10) + '%');
+            } else {
+                tooltipValue.html(d.value);
+            }
+            tooltip.style('display', 'block');
+        });
+
+        bar.on('mouseout', function() {
+            tooltip.style('display', 'none');
+        });
+
+        bar.on('mousemove', function(d) {
+            tooltip.style('top', (d3.event.pageY + 10) + 'px')
+                .style('left', (d3.event.pageX + 10) + 'px');
+        });
     }
     
     $('.dropdown').dropdown({
@@ -144,6 +174,7 @@
             $('#record').removeClass('loading').removeClass('disabled');
             $('#skip').removeClass('loading').removeClass('disabled');
             $('#form').css('display', 'inline-block');
+            $('.dropdown').dropdown('clear');
         });
     });
 
