@@ -46,7 +46,7 @@ func LogHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 
 		q := "INSERT INTO logs (size, prize, ip, created) VALUES (?, ?, ?, ?)"
 		t := time.Now()
-		_, err = db.Exec(q, p.Size, p.Prize, r.RemoteAddr, t.Format(time.RFC3339))
+		_, err = db.Exec(q, p.Size, p.Prize, r.Header.Get("X-Forwarded-For"), t.Format(time.RFC3339))
 
 		if err != nil {
 			fmt.Printf("Error inserting record: %s", err.Error())
