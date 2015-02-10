@@ -2,9 +2,23 @@
     'use strict';
 
     function displayStats() {
-        var width = 0.96 * Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        var width = 0.96 * Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+            labels = {
+                s: 'Small',
+                m: 'Medium',
+                l: 'Large',
+                x: 'Extra Large'
+            };
 
         if (width > 600) width = 600;
+        else if (width < 380) {
+            labels = {
+                s: 'S',
+                m: 'M',
+                l: 'L',
+                x: 'X'
+            };
+        }
 
         width -= 40; // For padding
 
@@ -29,14 +43,9 @@
             _.forEach(data, function(prizes, size) {
                 var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
                     frequency = 0,
-                    label;
+                    label = labels[size];
 
                 total += subtotal;
-
-                if (size === 's') label = 'Small';
-                else if (size === 'm') label = 'Medium';
-                else if (size === 'l') label = 'Large';
-                else label = 'Extra Large';
 
                 if (subtotal > 0) {
                     frequency = (subtotal - prizes.none) / subtotal;
