@@ -49,7 +49,6 @@ func LogHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 		ips := strings.Split(r.Header.Get("X-Forwarded-For"), ", ")
 		t := time.Now()
 		_, err = db.Exec(q, p.Size, p.Prize, ips[0], t.Format(time.RFC3339))
-
 		if err != nil {
 			fmt.Printf("Error inserting record: %s", err.Error())
 			http.Error(w, err.Error(), 500)
