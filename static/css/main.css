@@ -35,6 +35,14 @@ body {
   vertical-align: middle;
 }
 
+#outdated {
+  background: white;
+  left: 20px;
+  padding: 20px;
+  position: absolute;
+  top: 20px;
+}
+
 .logo {
   background-image: url(/img/logo.png);
   background-size: 72px 72px;

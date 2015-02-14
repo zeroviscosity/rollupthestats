@@ -2,9 +2,23 @@
     'use strict';
 
     function displayStats() {
-        var width = 0.96 * Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+        var width = 0.96 * Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
+            labels = {
+                s: 'Small',
+                m: 'Medium',
+                l: 'Large',
+                x: 'Extra Large'
+            };
 
         if (width > 600) width = 600;
+        else if (width < 380) {
+            labels = {
+                s: 'S',
+                m: 'M',
+                l: 'L',
+                x: 'X'
+            };
+        }
 
         width -= 40; // For padding
 
@@ -12,6 +26,14 @@
             var frequencies = [],
                 rolls = [],
                 breakdown = [],
+                best = {
+                    label: '',
+                    value: 0
+                },
+                most = {
+                    label: '',
+                    value: 0
+                },
                 total = 0;
 
             $('#form').fadeOut(function() {
@@ -21,14 +43,9 @@
             _.forEach(data, function(prizes, size) {
                 var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
                     frequency = 0,
-                    label;
+                    label = labels[size];
 
                 total += subtotal;
-
-                if (size === 's') label = 'Small';
-                else if (size === 'm') label = 'Medium';
-                else if (size === 'l') label = 'Large';
-                else label = 'Extra Large';
 
                 if (subtotal > 0) {
                     frequency = (subtotal - prizes.none) / subtotal;
@@ -47,23 +64,35 @@
                 prizes.size = label;
                 delete prizes.none;
                 breakdown.push(prizes);
+
+                if (frequency > best.value) {
+                    best.label = label.toLowerCase();
+                    best.value = frequency;
+                }
+
+                if (subtotal > most.value) {
+                    most.label = label.toLowerCase();
+                    most.value = subtotal;
+                }
             });
 
             $('#total').html(total);
-        
+            $('#best').html(best.label);
+            $('#most').html(most.label);
+
             generateBarChart('#frequency', width, 300, frequencies, 'Frequency', true);
             generateStackedBarChart('#breakdown', width, 300, breakdown);
             generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
         }, 'json');
     }
 
-    function generateBarChart(id, width, height, data, ylabel, percent) {
+    function generateBarChart(id, w, h, data, ylabel, percent) {
         var margin = {top: 20, right: 20, bottom: 30, left: 40},
-            width = width - margin.left - margin.right,
-            height = height - margin.top - margin.bottom;
+            width = w - margin.left - margin.right,
+            height = h - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1);
+            .rangeRoundBands([0, width], 0.1);
 
         var y = d3.scale.linear()
             .range([height, 0]);
@@ -74,7 +103,7 @@
 
         var yAxis = d3.svg.axis()
             .scale(y)
-            .orient('left')
+            .orient('left');
 
         if (percent) {
             yAxis.ticks(10, '%');
@@ -140,15 +169,15 @@
         });
     }
 
-    function generateStackedBarChart(id, width, height, data) {
+    function generateStackedBarChart(id, w, h, data) {
         var margin = {top: 20, right: 110, bottom: 30, left: 40},
             legendRect = 18,
             legendSpacing = 4,
-            width = width - margin.left - margin.right,
-            height = height - margin.top - margin.bottom;
+            width = w - margin.left - margin.right,
+            height = h - margin.top - margin.bottom;
 
         var x = d3.scale.ordinal()
-            .rangeRoundBands([0, width], .1);
+            .rangeRoundBands([0, width], 0.1);
 
         var y = d3.scale.linear()
             .rangeRound([height, 0]);

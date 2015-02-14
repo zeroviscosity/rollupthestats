@@ -32,7 +32,7 @@ func StatsHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 			ORDER BY size, prize`
 		rows, err := db.Query(q)
 		if err != nil {
-			fmt.Printf("Error during SELECT query: %s", err.Error())
+			fmt.Printf("Error during SELECT query: %s\n", err.Error())
 			http.Error(w, err.Error(), 500)
 			return
 		}
@@ -74,14 +74,14 @@ func StatsHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if err != nil {
-			fmt.Printf("Error while reading the SELECT results: %s", err.Error())
+			fmt.Printf("Error while reading the SELECT results: %s\n", err.Error())
 			http.Error(w, err.Error(), 500)
 			return
 		}
 
 		resp, err := json.Marshal(result)
 		if err != nil {
-			fmt.Printf("Error marshalling response: %s", err.Error())
+			fmt.Printf("Error marshalling response: %s\n", err.Error())
 			http.Error(w, err.Error(), 500)
 		} else {
 			fmt.Fprintf(w, string(resp))
