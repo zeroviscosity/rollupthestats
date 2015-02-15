@@ -345,7 +345,6 @@
                 .style('left', (d3.event.pageX + 10) + 'px');
         });
 
-
         var legend = svg.selectAll('.legend')
             .data(color.domain())
             .enter()
