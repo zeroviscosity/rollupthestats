@@ -23,6 +23,7 @@
         width -= 40; // For padding
 
         $.get('/api/stats', function(data) {
+            data = {"sizes":{"s":{"none":434,"coffee":128,"donut":31,"timcard":1,"visa":0,"tv":1,"car":3},"m":{"none":1295,"coffee":380,"donut":151,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":785,"coffee":240,"donut":65,"timcard":0,"visa":1,"tv":0,"car":4},"x":{"none":227,"coffee":71,"donut":17,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":72,"coffee":12,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"bc":{"none":50,"coffee":5,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"mb":{"none":47,"coffee":6,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":46,"coffee":9,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"nl":{"none":1,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":250,"coffee":39,"donut":11,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":366,"coffee":71,"donut":18,"timcard":0,"visa":0,"tv":0,"car":0},"pe":{"none":6,"coffee":2,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":29,"coffee":6,"donut":1,"timcard":0,"visa":0,"tv":0,"car":0},"sk":{"none":26,"coffee":2,"donut":1,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
             var frequencies = [],
                 rolls = [],
                 breakdown = [],
@@ -83,6 +84,51 @@
             generateBarChart('#frequency', width, 300, frequencies, 'Frequency', true);
             generateStackedBarChart('#breakdown', width, 300, breakdown);
             generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
+
+            d3.xml('/img/canada.svg', 'image/svg+xml', function(xml) {
+                var svg = $(xml.documentElement),
+                    w = 1043,
+                    h = 1010,
+                    ratio = h / w,
+                    scale = 1.29,
+                    provs = [],
+                    min = 1,
+                    max = 0,
+                    interpolate = d3.interpolate('#ffcece', '#d95c5c');
+
+                w *= scale;
+                h *= scale;
+
+                svg.attr('width', width + 'px')
+                    .attr('height', (width * ratio) + 'px')
+                    .attr('viewBox', '0 0 ' + w + ' ' + h)
+                    .attr('preserveAspectRatio', 'xMidYMid meet');
+
+                $('#canada').html(svg);
+
+                _.forEach(data.provinces, function(prizes, prov) {
+                    var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
+                        frequency = 0,
+                        id = '#CA-' + prov.toUpperCase();
+
+                    if (subtotal > 10) {
+                        frequency = (subtotal - prizes.none) / subtotal;
+
+                        provs.push({
+                            id: id,
+                            frequency: frequency
+                        });
+
+                        if (frequency < min) min = frequency;
+                        if (frequency > max) max = frequency;
+                    }
+                });
+
+                _.forEach(provs, function(prov) {
+                    var normed = (prov.frequency - min) / (max  - min);
+                    $(prov.id).attr('fill', interpolate(normed));
+                });
+            });
         }, 'json');
     }
 
