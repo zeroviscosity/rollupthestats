@@ -7,7 +7,20 @@
                 s: 'Small',
                 m: 'Medium',
                 l: 'Large',
-                x: 'Extra Large'
+                x: 'Extra Large',
+                ab: 'Alberta',
+                bc: 'British Columbia',
+                mb: 'Manitoba',
+                nb: 'New Brunswick',
+                nl: 'Newfoundland and Labrador',
+                ns: 'Nova Scotia',
+                nt: 'Northwest Territories',
+                nu: 'Nunavut',
+                on: 'Ontario',
+                pe: 'Prince Edward Island',
+                qc: 'Quebec',
+                sk: 'Saskatchewan',
+                yt: 'Yukon'
             };
 
         if (width > 600) width = 600;
@@ -23,7 +36,7 @@
         width -= 40; // For padding
 
         $.get('/api/stats', function(data) {
-            data = {"sizes":{"s":{"none":434,"coffee":128,"donut":31,"timcard":1,"visa":0,"tv":1,"car":3},"m":{"none":1295,"coffee":380,"donut":151,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":785,"coffee":240,"donut":65,"timcard":0,"visa":1,"tv":0,"car":4},"x":{"none":227,"coffee":71,"donut":17,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":72,"coffee":12,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"bc":{"none":50,"coffee":5,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"mb":{"none":47,"coffee":6,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":46,"coffee":9,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"nl":{"none":1,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":250,"coffee":39,"donut":11,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":366,"coffee":71,"donut":18,"timcard":0,"visa":0,"tv":0,"car":0},"pe":{"none":6,"coffee":2,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":29,"coffee":6,"donut":1,"timcard":0,"visa":0,"tv":0,"car":0},"sk":{"none":26,"coffee":2,"donut":1,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
+            //data = {"sizes":{"s":{"none":434,"coffee":128,"donut":31,"timcard":1,"visa":0,"tv":1,"car":3},"m":{"none":1295,"coffee":382,"donut":153,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":789,"coffee":242,"donut":65,"timcard":0,"visa":1,"tv":0,"car":4},"x":{"none":227,"coffee":71,"donut":17,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":194,"coffee":58,"donut":17,"timcard":0,"visa":0,"tv":0,"car":1},"bc":{"none":79,"coffee":22,"donut":3,"timcard":0,"visa":1,"tv":0,"car":0},"mb":{"none":73,"coffee":25,"donut":7,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":84,"coffee":25,"donut":13,"timcard":0,"visa":0,"tv":0,"car":1},"nl":{"none":3,"coffee":4,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":294,"coffee":70,"donut":21,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":1489,"coffee":456,"donut":152,"timcard":4,"visa":0,"tv":1,"car":8},"pe":{"none":6,"coffee":3,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":84,"coffee":29,"donut":10,"timcard":0,"visa":0,"tv":1,"car":0},"sk":{"none":42,"coffee":1,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
             var frequencies = [],
                 rolls = [],
                 breakdown = [],
@@ -86,7 +99,9 @@
             generateBarChart('#rolls', width, 300, rolls, 'Rolls Recorded', false);
 
             d3.xml('/img/canada.svg', 'image/svg+xml', function(xml) {
-                var svg = $(xml.documentElement),
+                var canada = $('#canada'),
+                    tooltip = $('<div class="wide tooltip"></div>'),
+                    svg = $(xml.documentElement),
                     w = 1043,
                     h = 1010,
                     ratio = h / w,
@@ -104,7 +119,8 @@
                     .attr('viewBox', '0 0 ' + w + ' ' + h)
                     .attr('preserveAspectRatio', 'xMidYMid meet');
 
-                $('#canada').html(svg);
+                canada.html(svg);
+                canada.append(tooltip);
 
                 _.forEach(data.provinces, function(prizes, prov) {
                     var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
@@ -116,17 +132,44 @@
 
                         provs.push({
                             id: id,
+                            label: labels[prov],
                             frequency: frequency
                         });
 
                         if (frequency < min) min = frequency;
                         if (frequency > max) max = frequency;
+                    } else {
+                        provs.push({
+                            id: id,
+                            label: labels[prov],
+                            frequency: 'N/A'
+                        });
+
                     }
                 });
 
-                _.forEach(provs, function(prov) {
-                    var normed = (prov.frequency - min) / (max  - min);
-                    $(prov.id).attr('fill', interpolate(normed));
+                _.forEach(provs, function(p) {
+                    var prov = $(p.id);
+
+                    if (p.frequency !== 'N/A') {
+                        prov.attr('fill', interpolate((p.frequency - min) / (max  - min)));
+                    }
+
+                    prov.mouseover(function() {
+                            var freq = (p.frequency === 'N/A') ?
+                                p.frequency :
+                                (Math.round(1000 * p.frequency) / 10) + '%';
+
+                            tooltip.html(p.label + '<br>' + freq)
+                                .show();
+                        })
+                        .mouseout(function() {
+                            tooltip.hide();
+                        })
+                        .mousemove(function(evt) {
+                            tooltip.css('top', (evt.pageY + 10) + 'px')
+                                .css('left', (evt.pageX + 10) + 'px');
+                        });
                 });
             });
         }, 'json');

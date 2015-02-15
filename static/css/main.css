@@ -137,6 +137,10 @@ body {
   z-index: 10;
 }
 
+.tooltip.wide {
+  width: 120px;
+}
+
 #what-button {
   position: absolute;
   right: 5px;
