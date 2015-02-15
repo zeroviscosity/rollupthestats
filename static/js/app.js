@@ -171,6 +171,41 @@
                                 .css('left', (evt.pageX + 10) + 'px');
                         });
                 });
+
+                var legendData = [
+                    { label: 'High', color: interpolate(1) },
+                    { label: '', color: interpolate(0.75) },
+                    { label: '', color: interpolate(0.5) },
+                    { label: '', color: interpolate(0.25) },
+                    { label: 'Low', color: interpolate(0) },
+                    { label: 'N/A', color: '#d3d3d3' },
+                ];
+
+                var legendRect = 42,
+                    legendSpacing = 10;
+
+                var legend = d3.select('#canada > svg')
+                    .selectAll('.legend')
+                    .data(legendData)
+                    .enter()
+                    .append('g')
+                    .attr('class', 'big legend')
+                    .attr('transform', function(d, i) {
+                        var horz = w - 200;
+                        var vert = i * (legendRect + legendSpacing) + 20;
+                        return 'translate(' + horz + ',' + vert + ')';
+                    });
+                
+                legend.append('rect')
+                    .attr('width', legendRect)
+                    .attr('height', legendRect)
+                    .style('fill', function(d) { return d.color; })
+                    .style('stroke', function(d) { return d.color });
+
+                legend.append('text')
+                    .attr('x', legendRect + legendSpacing)
+                    .attr('y', legendRect - legendSpacing)
+                    .text(function(d) { return d.label; });
             });
         }, 'json');
     }

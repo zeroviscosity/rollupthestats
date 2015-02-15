@@ -117,9 +117,15 @@ body {
 .legend {
   font-size: 12px;
 }
+.big.legend {
+  font-size: 30px;
+}
 
 .legend rect {
   stroke-width: 2;
+}
+.big.legend rect {
+  stroke-width: 6;
 }
 
 .tooltip {
