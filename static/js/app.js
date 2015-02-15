@@ -40,7 +40,7 @@
                 $('#stats').css('display', 'inline-block');
             });
 
-            _.forEach(data, function(prizes, size) {
+            _.forEach(data.sizes, function(prizes, size) {
                 var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
                     frequency = 0,
                     label = labels[size];
