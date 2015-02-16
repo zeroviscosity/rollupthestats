@@ -36,7 +36,7 @@
         width -= 40; // For padding
 
         $.get('/api/stats', function(data) {
-            //data = {"sizes":{"s":{"none":434,"coffee":128,"donut":31,"timcard":1,"visa":0,"tv":1,"car":3},"m":{"none":1295,"coffee":382,"donut":153,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":789,"coffee":242,"donut":65,"timcard":0,"visa":1,"tv":0,"car":4},"x":{"none":227,"coffee":71,"donut":17,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":194,"coffee":58,"donut":17,"timcard":0,"visa":0,"tv":0,"car":1},"bc":{"none":79,"coffee":22,"donut":3,"timcard":0,"visa":1,"tv":0,"car":0},"mb":{"none":73,"coffee":25,"donut":7,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":84,"coffee":25,"donut":13,"timcard":0,"visa":0,"tv":0,"car":1},"nl":{"none":3,"coffee":4,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":294,"coffee":70,"donut":21,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":1489,"coffee":456,"donut":152,"timcard":4,"visa":0,"tv":1,"car":8},"pe":{"none":6,"coffee":3,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":84,"coffee":29,"donut":10,"timcard":0,"visa":0,"tv":1,"car":0},"sk":{"none":42,"coffee":1,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
+            //data = {"sizes":{"s":{"none":445,"coffee":131,"donut":31,"timcard":1,"visa":0,"tv":1,"car":2},"m":{"none":1325,"coffee":396,"donut":158,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":803,"coffee":248,"donut":66,"timcard":0,"visa":0,"tv":0,"car":3},"x":{"none":236,"coffee":76,"donut":19,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":198,"coffee":58,"donut":17,"timcard":0,"visa":0,"tv":0,"car":1},"bc":{"none":80,"coffee":23,"donut":3,"timcard":0,"visa":1,"tv":0,"car":0},"mb":{"none":74,"coffee":25,"donut":7,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":86,"coffee":25,"donut":13,"timcard":0,"visa":0,"tv":0,"car":1},"nl":{"none":4,"coffee":7,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":309,"coffee":78,"donut":22,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":1517,"coffee":467,"donut":157,"timcard":4,"visa":0,"tv":1,"car":8},"pe":{"none":6,"coffee":3,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":89,"coffee":30,"donut":10,"timcard":0,"visa":0,"tv":1,"car":0},"sk":{"none":42,"coffee":1,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
             var frequencies = [],
                 rolls = [],
                 breakdown = [],
@@ -127,7 +127,7 @@
                         frequency = 0,
                         id = '#CA-' + prov.toUpperCase();
 
-                    if (subtotal > 10) {
+                    if (subtotal > 50) {
                         frequency = (subtotal - prizes.none) / subtotal;
 
                         provs.push({
