@@ -109,7 +109,7 @@
                     provs = [],
                     min = 1,
                     max = 0,
-                    interpolate = d3.interpolate('#ffcece', '#d95c5c');
+                    interpolate = d3.interpolate('#F3CA2D', '#d95c5c');
 
                 w *= scale;
                 h *= scale;
