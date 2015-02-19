@@ -21,17 +21,17 @@
                 qc: 'Quebec',
                 sk: 'Saskatchewan',
                 yt: 'Yukon'
-            };
-
-        if (width > 600) width = 600;
-        else if (width < 380) {
-            labels = {
+            },
+            mobileLabels = {
                 s: 'S',
                 m: 'M',
                 l: 'L',
                 x: 'X'
-            };
-        }
+            },
+            mobile = false;
+
+        if (width > 600) width = 600;
+        else if (width < 380) mobile = true;
 
         width -= 40; // For padding
 
@@ -57,7 +57,8 @@
             _.forEach(data.sizes, function(prizes, size) {
                 var subtotal = _.reduce(_.values(prizes), function(sum, n) { return sum + n; }),
                     frequency = 0,
-                    label = labels[size];
+                    label = (mobile) ? mobileLabels[size] : labels[size],
+                    fullLabel = labels[size];
 
                 total += subtotal;
 
@@ -80,12 +81,12 @@
                 breakdown.push(prizes);
 
                 if (frequency > best.value) {
-                    best.label = label.toLowerCase();
+                    best.label = fullLabel;
                     best.value = frequency;
                 }
 
                 if (subtotal > most.value) {
-                    most.label = label.toLowerCase();
+                    most.label = fullLabel;
                     most.value = subtotal;
                 }
             });
@@ -200,7 +201,7 @@
                     .attr('width', legendRect)
                     .attr('height', legendRect)
                     .style('fill', function(d) { return d.color; })
-                    .style('stroke', function(d) { return d.color });
+                    .style('stroke', function(d) { return d.color; });
 
                 legend.append('text')
                     .attr('x', legendRect + legendSpacing)
