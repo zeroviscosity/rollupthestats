@@ -109,11 +109,11 @@ func StatsHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 
 		q = `SELECT province, prize, COUNT(id) AS count 
 			FROM logs 
-			WHERE country = 'CANADA' 
+			WHERE country = 'Canada' 
 			AND province IS NOT NULL
 			AND province != 'NA'
 			GROUP BY province, prize 
-			ORDER BY province, prize;`
+			ORDER BY province, prize`
 		rows, err = db.Query(q)
 		if err != nil {
 			fmt.Printf("Error during provinces SELECT query: %s\n", err.Error())
@@ -153,7 +153,7 @@ func StatsHandler(db *sql.DB) func(w http.ResponseWriter, r *http.Request) {
 				p = &stats.Provinces.QC
 			case "Saskatchewan":
 				p = &stats.Provinces.SK
-			case "Yukon":
+			case "Yukon Territory":
 				p = &stats.Provinces.YT
 			}
 
