@@ -36,7 +36,7 @@ func main() {
 		log.Fatalf("Error opening database connection: %s\n", err.Error())
 	}
 
-	http.HandleFunc("/api/logs", handlers.LogHandler(db))
+	//http.HandleFunc("/api/logs", handlers.LogHandler(db))
 	http.HandleFunc("/api/stats", handlers.StatsHandler(db))
 	http.HandleFunc(fmt.Sprintf("/api/geo/%s", config.Token), handlers.GeoHandler(db))
 

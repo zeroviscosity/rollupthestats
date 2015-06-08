@@ -451,4 +451,6 @@
     $('#what-button').click(function() {
         $('#what-modal').modal('show');
     });
+
+    displayStats();
 })(window.jQuery, window._);
