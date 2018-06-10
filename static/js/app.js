@@ -35,7 +35,7 @@
 
         width -= 40; // For padding
 
-        $.get('/api/stats', function(data) {
+        $.get('/stats.json', function(data) {
             //data = {"sizes":{"s":{"none":445,"coffee":131,"donut":31,"timcard":1,"visa":0,"tv":1,"car":2},"m":{"none":1325,"coffee":396,"donut":158,"timcard":3,"visa":2,"tv":1,"car":5},"l":{"none":803,"coffee":248,"donut":66,"timcard":0,"visa":0,"tv":0,"car":3},"x":{"none":236,"coffee":76,"donut":19,"timcard":1,"visa":0,"tv":0,"car":1}},"provinces":{"ab":{"none":198,"coffee":58,"donut":17,"timcard":0,"visa":0,"tv":0,"car":1},"bc":{"none":80,"coffee":23,"donut":3,"timcard":0,"visa":1,"tv":0,"car":0},"mb":{"none":74,"coffee":25,"donut":7,"timcard":0,"visa":0,"tv":0,"car":0},"nb":{"none":86,"coffee":25,"donut":13,"timcard":0,"visa":0,"tv":0,"car":1},"nl":{"none":4,"coffee":7,"donut":3,"timcard":0,"visa":0,"tv":0,"car":0},"ns":{"none":309,"coffee":78,"donut":22,"timcard":0,"visa":0,"tv":0,"car":0},"nt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"nu":{"none":2,"coffee":1,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"on":{"none":1517,"coffee":467,"donut":157,"timcard":4,"visa":0,"tv":1,"car":8},"pe":{"none":6,"coffee":3,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0},"qc":{"none":89,"coffee":30,"donut":10,"timcard":0,"visa":0,"tv":1,"car":0},"sk":{"none":42,"coffee":1,"donut":2,"timcard":0,"visa":0,"tv":0,"car":0},"yt":{"none":0,"coffee":0,"donut":0,"timcard":0,"visa":0,"tv":0,"car":0}}};
             var frequencies = [],
                 rolls = [],
