@@ -1,0 +1,159 @@
+{
+	"sizes": {
+		"s": {
+			"none": 1277,
+			"coffee": 441,
+			"donut": 144,
+			"timcard": 2,
+			"visa": 2,
+			"tv": 3,
+			"car": 14
+		},
+		"m": {
+			"none": 4311,
+			"coffee": 1570,
+			"donut": 548,
+			"timcard": 10,
+			"visa": 2,
+			"tv": 3,
+			"car": 9
+		},
+		"l": {
+			"none": 2784,
+			"coffee": 1077,
+			"donut": 287,
+			"timcard": 6,
+			"visa": 1,
+			"tv": 5,
+			"car": 12
+		},
+		"x": {
+			"none": 1081,
+			"coffee": 330,
+			"donut": 114,
+			"timcard": 6,
+			"visa": 5,
+			"tv": 2,
+			"car": 11
+		}
+	},
+	"provinces": {
+		"ab": {
+			"none": 848,
+			"coffee": 249,
+			"donut": 80,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 4,
+			"car": 4
+		},
+		"bc": {
+			"none": 508,
+			"coffee": 182,
+			"donut": 50,
+			"timcard": 2,
+			"visa": 3,
+			"tv": 0,
+			"car": 3
+		},
+		"mb": {
+			"none": 178,
+			"coffee": 85,
+			"donut": 26,
+			"timcard": 0,
+			"visa": 1,
+			"tv": 1,
+			"car": 0
+		},
+		"nb": {
+			"none": 213,
+			"coffee": 81,
+			"donut": 24,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 1
+		},
+		"nl": {
+			"none": 66,
+			"coffee": 33,
+			"donut": 9,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"ns": {
+			"none": 729,
+			"coffee": 203,
+			"donut": 51,
+			"timcard": 1,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"nt": {
+			"none": 1,
+			"coffee": 0,
+			"donut": 0,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"nu": {
+			"none": 2,
+			"coffee": 2,
+			"donut": 2,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"on": {
+			"none": 4882,
+			"coffee": 1884,
+			"donut": 606,
+			"timcard": 18,
+			"visa": 3,
+			"tv": 6,
+			"car": 26
+		},
+		"pe": {
+			"none": 24,
+			"coffee": 15,
+			"donut": 3,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"qc": {
+			"none": 374,
+			"coffee": 172,
+			"donut": 71,
+			"timcard": 1,
+			"visa": 0,
+			"tv": 1,
+			"car": 3
+		},
+		"sk": {
+			"none": 122,
+			"coffee": 46,
+			"donut": 14,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		},
+		"yt": {
+			"none": 44,
+			"coffee": 17,
+			"donut": 7,
+			"timcard": 0,
+			"visa": 0,
+			"tv": 0,
+			"car": 0
+		}
+	}
+}
